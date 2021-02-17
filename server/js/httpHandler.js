@@ -16,7 +16,7 @@ module.exports.initialize = (queue) => {
 module.exports.router = (req, res, next = ()=>{}) => {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.writeHead(200, headers);
-
+  //handle GET
   if (req.method === 'GET') {
     res.write(methods.randomSwimGenerator());
   }
@@ -26,10 +26,3 @@ module.exports.router = (req, res, next = ()=>{}) => {
 };
 
 
-// 1. standing up a mock server
-// 2. mock server returns { request, response }
-//   request - method, on listener
-//   response - response function
-// 3. route req, res to server
-//   gives 200 success (connected)
-//

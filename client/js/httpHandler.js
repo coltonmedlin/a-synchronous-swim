@@ -7,7 +7,7 @@ const fetcher = function() {
   });
 }
 
-setInterval(fetcher, 1000 );
+setInterval(fetcher, 300 );
 
 (function() {
 

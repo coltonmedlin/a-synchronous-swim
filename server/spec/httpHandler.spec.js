@@ -28,7 +28,7 @@ describe('server responses', () => {
     httpHandler.router(req, res);
     expect(res._responseCode).to.equal(200);
     expect(res._headers).to.not.be.empty;
-    const options = ['up', 'down', 'left', 'right'];
+    const options = ['up', 'down', 'left', 'right', 'INVALID'];
     //FIX THIS VV
     expect(options.includes(res._data.toString())).to.equal(true);
     //CHECK FOR RANDOMNESS
