@@ -23,6 +23,15 @@ describe('server responses', () => {
 
   it('should respond to a GET request for a swim command', (done) => {
     // write your test here
+    let {req, res} = server.mock('/', 'GET');
+
+    httpHandler.router(req, res);
+    expect(res._responseCode).to.equal(200);
+    expect(res._headers).to.not.be.empty;
+    const options = ['up', 'down', 'left', 'right'];
+    //FIX THIS VV
+    expect(options.includes(res._data.toString())).to.equal(true);
+    //CHECK FOR RANDOMNESS
     done();
   });
 
