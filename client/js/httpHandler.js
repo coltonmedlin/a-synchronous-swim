@@ -1,3 +1,14 @@
+const fetcher = function() {
+  $.get('http://127.0.0.1:3000', () => {
+  console.log('success!');
+  }).done((data) => {
+    console.log(`data: ${data}`);
+    SwimTeam.move(data);
+  });
+}
+
+setInterval(fetcher, 1000 );
+
 (function() {
 
   const serverUrl = 'http://127.0.0.1:3000';
@@ -5,6 +16,14 @@
   //
   // TODO: build the swim command fetcher here
   //
+
+  // write ajax get request
+
+  // use setTimeout to call repetitively
+  // call swimTeam.move(response)
+
+
+
 
   /////////////////////////////////////////////////////////////////////
   // The ajax file uplaoder is provided for your convenience!
