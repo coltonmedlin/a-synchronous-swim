@@ -1,5 +1,5 @@
 const fetcher = function() {
-  $.get('http://127.0.0.1:3000', () => {
+  $.get('http://127.0.0.1:3000/direction', () => {
   console.log('success!');
   }).done((data) => {
     console.log(`data: ${data}`);
