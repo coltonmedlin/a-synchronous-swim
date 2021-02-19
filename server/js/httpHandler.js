@@ -16,11 +16,12 @@ module.exports.initialize = (queue) => {
 module.exports.router = (req, res, next = ()=>{}) => {
   console.log('Serving request type ' + req.method + ' for url ' + req.url);
   res.writeHead(200, headers);
-  //handle GET DIRECTION
+  //GET DIRECTION
   if (req.method === 'GET' && req.url === '/direction') {
     res.writeHead(200, headers);
     res.write(methods.randomSwimGenerator());
   }
+  //GET BACKGROUND
   if (req.method === 'GET' && req.url === '/background.jpg') {
     if (fs.existsSync(this.backgroundImageFile)) {
       let img = fs.readFileSync(this.backgroundImageFile);
@@ -30,6 +31,14 @@ module.exports.router = (req, res, next = ()=>{}) => {
     } else {
       res.writeHead(404, headers);
     }
+  }
+  //POST BACKGROUND
+  if (req.method === 'POST' && req.url === '/background.jpg') {
+    res.writeHead(201, headers);
+    console.log(multipart.getFile(req._postData));
+    // fs.writeFileSync(this.backgroundImageFile, multipart.getFile(req._postData), 'base64', (err) => {
+    //   if (err) return console.log(err);
+    // });
   }
   res.end();
   next(); // invoke next() at the end of a request to help with testing!

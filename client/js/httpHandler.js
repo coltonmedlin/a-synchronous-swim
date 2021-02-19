@@ -36,18 +36,20 @@ setInterval(fetcher, 300 );
     $.ajax({
       type: 'POST',
       data: formData,
-      url: 'FILL_ME_IN',
+      url: 'http://127.0.0.1:3000/background.jpg',
       cache: false,
       contentType: false,
       processData: false,
       success: () => {
         // reload the page
         window.location = window.location.href;
+        //$('.background').css({'background-image':'url(http://127.0.0.1:3000/background.jpg)'});
       }
     });
   };
 
   $('form').on('submit', function(e) {
+    console.log('SUBMITTED!')
     e.preventDefault();
 
     var form = $('form .file')[0];
