@@ -35,10 +35,16 @@ module.exports.router = (req, res, next = ()=>{}) => {
   //POST BACKGROUND
   if (req.method === 'POST' && req.url === '/background.jpg') {
     res.writeHead(201, headers);
-    console.log(multipart.getFile(req._postData));
-    // fs.writeFileSync(this.backgroundImageFile, multipart.getFile(req._postData), 'base64', (err) => {
-    //   if (err) return console.log(err);
-    // });
+    let body = [];
+    req.on('data', (chunk) => {
+      body.push(chunk);
+    }).on('end', () => {
+      body = Buffer.concat(body);
+      let img = multipart.getFile(body);
+      fs.writeFileSync(this.backgroundImageFile, img.data, 'base64', (err) => {
+        if (err) return console.log(err);
+      });
+    });
   }
   res.end();
   next(); // invoke next() at the end of a request to help with testing!

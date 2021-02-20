@@ -41,9 +41,7 @@ setInterval(fetcher, 300 );
       contentType: false,
       processData: false,
       success: () => {
-        // reload the page
         window.location = window.location.href;
-        //$('.background').css({'background-image':'url(http://127.0.0.1:3000/background.jpg)'});
       }
     });
   };

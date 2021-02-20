@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const expect = require('chai').expect;
 const server = require('./mockServer');
+const multipart = require('../js/multipartUtils.js')
 
 const httpHandler = require('../js/httpHandler');
 
@@ -57,7 +58,7 @@ describe('server responses', () => {
     });
   });
 
-  var postTestFile = path.join('.', 'spec', 'water-lg.jpg');
+  var postTestFile = path.join('.', 'spec', 'water-lg.multipart');
 
   it('should respond to a POST request to save a background image', (done) => {
     fs.readFile(postTestFile, (err, fileData) => {
@@ -79,8 +80,9 @@ describe('server responses', () => {
 
       httpHandler.router(post.req, post.res, () => {
         let get = server.mock('/background.jpg', 'GET');
+        let img = multipart.getFile(fileData).data;
         httpHandler.router(get.req, get.res, () => {
-          expect(Buffer.compare(fileData, get.res._data)).to.equal(0);
+          expect(Buffer.compare(img, get.res._data)).to.equal(0);
           done();
         });
       });
