@@ -2,7 +2,9 @@ const fs = require('fs');
 const path = require('path');
 const headers = require('./cors');
 const multipart = require('./multipartUtils');
-const methods = require('./randomSwimGenerator.js')
+const methods = require('./randomSwimGenerator.js');
+const bg = require('./backgroundHandler.js');
+const direction = require('./directionHandler.js');
 
 // Path for the background image ///////////////////////
 module.exports.backgroundImageFile = path.join('.', 'background.jpg');
@@ -18,34 +20,17 @@ module.exports.router = (req, res, next = ()=>{}) => {
   res.writeHead(200, headers);
   //GET DIRECTION
   if (req.method === 'GET' && req.url === '/direction') {
-    res.writeHead(200, headers);
-    res.write(methods.randomSwimGenerator());
+    direction.getDirection(req, res);
   }
   //GET BACKGROUND
   if (req.method === 'GET' && req.url === '/background.jpg') {
-    if (fs.existsSync(this.backgroundImageFile)) {
-      let img = fs.readFileSync(this.backgroundImageFile);
-      headers['Content-Type'] = 'image/jpeg';
-      res.writeHead(200, headers);
-      res.end(img, 'base64');
-    } else {
-      res.writeHead(404, headers);
-    }
+    bg.getBackground(req, res, this.backgroundImageFile);
   }
   //POST BACKGROUND
   if (req.method === 'POST' && req.url === '/background.jpg') {
-    res.writeHead(201, headers);
-    let body = [];
-    req.on('data', (chunk) => {
-      body.push(chunk);
-    }).on('end', () => {
-      body = Buffer.concat(body);
-      let img = multipart.getFile(body);
-      fs.writeFileSync(this.backgroundImageFile, img.data, 'base64', (err) => {
-        if (err) return console.log(err);
-      });
-    });
+    bg.postBackground(req, res, this.backgroundImageFile);
   }
+  //ACCOUNT FOR DEFAULTS
   res.end();
   next(); // invoke next() at the end of a request to help with testing!
 };
