@@ -2,8 +2,10 @@ const fs = require('fs');
 const path = require('path');
 const headers = require('./cors');
 const multipart = require('./multipartUtils');
+const route = require('./httpHandler.js');
 
-module.exports.getBackground = (req, res, backgroundImageFile) => {
+const getBackground = (req, res, backgroundImageFile) => {
+  console.log('GETTING BG')
   if (fs.existsSync(backgroundImageFile)) {
     let img = fs.readFileSync(backgroundImageFile);
     headers['Content-Type'] = 'image/jpeg';
@@ -15,7 +17,8 @@ module.exports.getBackground = (req, res, backgroundImageFile) => {
   return res;
 }
 
-module.exports.postBackground = (req, res, backgroundImageFile) => {
+const postBackground = (req, res, backgroundImageFile) => {
+  console.log('POSTING BG')
   res.writeHead(201, headers);
     let body = [];
     req.on('data', (chunk) => {
@@ -29,3 +32,7 @@ module.exports.postBackground = (req, res, backgroundImageFile) => {
     });
   return res;
 }
+
+//register
+route.actions.on('GET/background.jpg', getBackground);
+route.actions.on('POST/background.jpg', postBackground);
